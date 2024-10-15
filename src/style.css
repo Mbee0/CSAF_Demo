@@ -46,6 +46,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #f1f3f4;
 }
 
 button:hover {
@@ -62,10 +63,12 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100vw;
+  color: #192642;
 }
 
 @media (prefers-color-scheme: light) {

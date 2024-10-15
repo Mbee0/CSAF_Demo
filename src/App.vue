@@ -57,7 +57,12 @@ const switchTab = (tab) => {
 <template>
   <div class="app">
     <header>
-      <h1>Phishing Email Trainer</h1>
+      <h1>
+        <img src="./images/logo.png">
+        <button onclick=" window.open('https://linktr.ee/cppdsai','_blank')">
+
+          Data Science and AI Phishing Email Trainer</button>
+      </h1>
       <nav>
         <button @click="switchTab('inbox')" :class="{ active: activeTab === 'inbox' }">Inbox</button>
         <button @click="switchTab('generator')" :class="{ active: activeTab === 'generator' }">Email Generator</button>
@@ -81,18 +86,23 @@ const switchTab = (tab) => {
 </template>
 
 <style>
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
 }
+
 .app {
   font-family: Arial, sans-serif;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
+
 header {
   position: fixed;
   top: 0;
@@ -102,18 +112,44 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f1f3f4;
+  /* background-color: #f1f3f4; */
+  background-color: #3a7faa;
   border-bottom: 1px solid #e0e0e0;
   z-index: 1000;
 }
+
 h1 {
   color: #4285f4;
   margin: 0;
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 }
+
+h1 button {
+  background: none;
+  border: none;
+  font-size: 32px;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #5f6368;
+}
+
+h1 button:focus {
+  outline: none;
+}
+
+
+h1 img {
+  width: 50px;
+  height: 50px;
+}
+
 nav {
   display: flex;
 }
+
 nav button {
   background: none;
   border: none;
@@ -122,27 +158,40 @@ nav button {
   cursor: pointer;
   color: #5f6368;
 }
+
 nav button.active {
   color: #4285f4;
-  border-bottom: 3px solid #4285f4;
+  /* border-bottom: 3px solid #4285f4; */
 }
+
+nav button:focus {
+  outline: none;
+}
+
+
 main {
   flex-grow: 1;
   display: flex;
   margin-top: 60px;
   height: calc(100vh - 60px);
-  overflow: hidden;
 }
+
 .inbox-view {
   display: flex;
   width: 100%;
   height: 100%;
+  margin-left: 400px;
+  padding: 0;
+  padding-top: 20px;
 }
+
 .email-details {
   flex-grow: 1;
+  width: 100%;
   overflow-y: auto;
   padding: 20px;
 }
+
 .no-email-selected {
   flex-grow: 1;
   display: flex;
@@ -151,5 +200,8 @@ main {
   font-size: 18px;
   color: #5f6368;
   background-color: #f1f3f4;
+  margin: 5px;
+  border-radius: 5px;
+  border-color: #5f6368;
 }
 </style>
