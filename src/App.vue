@@ -202,6 +202,8 @@ main {
   background-color: #f1f3f4;
   margin: 5px;
   border-radius: 5px;
-  border-color: #5f6368;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #e0e0e0;
 }
 </style>
