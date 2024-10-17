@@ -13,7 +13,7 @@ const detectEmail = async () => {
     You are a cybersecurity expert who specializes in identifying spam emails. I am going to give you an email, not spam or spam, and I want you to 
     analyze said email and return to me these major points in this order and format:
     Phishing Probability: {low, medium, high}
-    Elements: (list out either legitamate elements or suspicious elements)
+    Elements: (list out either legitamate elements or suspicious elements within the email that caused you to believe not spam or spam)
     Recommended Actions: (Possible recommended actions for the user to check if this is a phishing email for themself or how to keep themself safe)
     Explanation: (Explain the suspicious elements and why this is or isn't a phishing email)
   `;
