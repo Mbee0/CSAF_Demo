@@ -30,7 +30,7 @@ const selectEmail = (email) => {
     width: 400px;
     border: 1px solid #e0e0e0;
     overflow-y: auto;
-    height: 100%;
+    height: 95vw;
     background-color: #f1f3f4;
     position: fixed;
     left: 0px;
