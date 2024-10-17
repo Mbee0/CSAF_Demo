@@ -66,9 +66,9 @@ const detectEmail = async () => {
     <div class="email-generator">
         <h2>Phishing Email Detector</h2>
         <div class="search-bar">
-            <input v-model="topic" placeholder="Enter a topic for the phishing email" />
+            <textarea v-model="topic" placeholder="Enter the Phishing Email"></textarea>
+            <!-- {{ isLoading ? 'Generating...' : 'Generate Email' }} -->
             <button @click="generateEmail" :disabled="isLoading">
-                {{ isLoading ? 'Generating...' : 'Generate Email' }}
             </button>
         </div>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -100,28 +100,42 @@ const detectEmail = async () => {
 .search-bar {
     display: flex;
     margin-bottom: 20px;
+    align-items: flex-end;
 }
 
-input {
+textarea {
     flex-grow: 1;
-    padding: 10px;
+    padding: 20px;
     font-size: 16px;
-    border: 1px solid #dadce0;
-    border-radius: 4px 0 0 4px;
+    border: 0px solid #dadce0;
+    border-radius: 15px;
+    height: 300px;
+    text-align: justify;
+}
+
+textarea:focus {
+    outline: none;
 }
 
 button {
-    padding: 10px 20px;
+    margin: 5px 15px;
+    background: url('../images/go1.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 8px 10px;
     font-size: 16px;
-    background-color: #4285f4;
+    /* background-color: #4285f4; */
     color: white;
     border: none;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
+    width: 52px;
+    height: 50px;
 }
 
 button:disabled {
-    background-color: #dadce0;
+    background: url('../images/go.webp');
+    /* background-color: #dadce0; */
 }
 
 .generated-email {

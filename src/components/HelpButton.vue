@@ -2,30 +2,36 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-  hints: Array
+    hints: Array
 });
 
 const showHints = ref(false);
 
 const toggleHints = () => {
-  showHints.value = !showHints.value;
+    showHints.value = !showHints.value;
 };
 </script>
 
 <template>
-  <div class="help-button">
-    <button @click="toggleHints">{{ showHints ? 'Hide Help' : 'Show Help' }}</button>
-    <ul v-if="showHints">
-      <li v-for="(hint, index) in hints" :key="index">{{ hint }}</li>
-    </ul>
-  </div>
+    <div class="help-button">
+        <button @click="toggleHints">{{ showHints ? 'Hide Help' : 'Show Help' }}</button>
+        <ul v-if="showHints">
+            <li v-for="(hint, index) in hints" :key="index">{{ hint }}</li>
+        </ul>
+    </div>
 </template>
 
 <style scoped>
 .help-button {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+    /* background-color: #192642; */
 }
+
+button {
+    background-color: #3a7faa;
+}
+
 ul {
-  text-align: left;
+    text-align: left;
 }
 </style>
