@@ -1,16 +1,15 @@
 <script setup>
-import { ref } from 'vue';
-import openai from '../assets/openai.js';
-// import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 
-const topic = ref('');
+const topic = ref("");
 const generatedEmail = ref(null);
 const isLoading = ref(false);
-const errorMessage = ref('');
-const recipientName = ref('exampleuser@gmail.com')
+const errorMessage = ref("");
+const recipientName = ref("exampleuser@gmail.com");
 
 const generateEmail = async () => {
-    const prompt = `
+  const prompt = `
     Write a phishing email that appears to be from a sender relevant to the topic. 
     The email should pretend to be about "${topic.value}", using urgency and a call to action to click a malicious link. 
     Include elements that demonstrate typical phishing tactics:
@@ -27,175 +26,162 @@ const generateEmail = async () => {
       "body": "<email body>"
     }
   `;
-    isLoading.value = true;
-    errorMessage.value = '';
 
-    try {
-        const apiUrl = 'https://api.openai.com/v1/engines/davinci/completions'; // Replace with your model endpoint
-        const apiKey = 'your_openai_api_key_here'; // Replace with your actual OpenAI API key
+  isLoading.value = true;
+  errorMessage.value = "";
 
-        // Prepare the request payload
-        const requestBody = JSON.stringify({
-            prompt: prompt,
-            max_tokens: 150, // Adjust tokens based on expected length
-            temperature: 0.7 // Adjust creativity level
-        });
+  try {
+    const apiUrl = "https://api.openai.com/v1/chat/completions";
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
-        // Fetch request to OpenAI API
-        const response = await openai.chat.completions.create({
-            messages: [{ role: 'user', content: 'hi, how are you?' }],
-            model: 'gpt-3.5-turbo'
-        });
-        if (!response.ok) {
-            throw new Error('Failed to generate email');
-        }
+    // Make the API request with gpt-4-turbo and correct JSON payload
+    const response = await axios.post(
+      apiUrl,
+      {
+        model: "gpt-4-turbo",
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 1000,
+        temperature: 0.2,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-        console.log(response.choices[0].message)
-
-        // const data = await response.json();
-        // console.log(data.value)
-
-        // Process data with Instructor library if needed
-        // let emailData = data.choices[0].text;
-
-        // // Use Instructor library if specific formatting or structuring is required
-        // if (typeof Instructor !== 'undefined') {
-        //     emailData = Instructor.process(emailData); // Adjust based on Instructor’s method for processing
-        // }
-
-        // generatedEmail.value = {
-        //     subject: 'Generated Email Subject', // Customize based on the email data returned
-        //     from: 'Generated Sender <no-reply@example.com>',
-        //     to: 'user@example.com',
-        //     date: new Date().toLocaleString(),
-        //     body: emailData // or parse and format as needed
-        // };
-    } catch (error) {
-        console.error('Error generating email:', error);
-        errorMessage.value = 'Failed to generate email. Please try again.';
-    } finally {
-        isLoading.value = false;
-    }
+    const emailData = response.data.choices[0].message.content.trim();
+    generatedEmail.value = JSON.parse(emailData);
+  } catch (error) {
+    console.error("Error generating email:", error);
+    errorMessage.value = "Failed to generate email. Please try again.";
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
 <template>
-    <div class="email-generator">
-        <h2>Generate Personalized Phishing Email</h2>
-        <div class="search-bar">
-            <input v-model="topic" placeholder="Enter a topic for the phishing email" />
-            <button @click="generateEmail" :disabled="isLoading">
-                {{ isLoading ? 'Generating...' : 'Generate Email' }}
-            </button>
-        </div>
-        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        <div v-if="generatedEmail" class="generated-email">
-            <h3>New Email Received!</h3>
-            <div class="email-content">
-                <div class="email-header">
-                    <div class="email-from">{{ generatedEmail.from }}</div>
-                    <div class="email-to">To: {{ generatedEmail.to }}</div>
-                    <div class="email-date">{{ generatedEmail.date }}</div>
-                    <h2>{{ generatedEmail.subject }}</h2>
-                </div>
-                <div class="email-body">{{ generatedEmail.body }}</div>
-            </div>
-        </div>
+  <div class="email-generator">
+    <h2>Generate Personalized Phishing Email</h2>
+    <div class="search-bar">
+      <input
+        v-model="topic"
+        placeholder="Enter a topic for the phishing email"
+      />
+      <button @click="generateEmail" :disabled="isLoading">
+        {{ isLoading ? "Generating..." : "Generate Email" }}
+      </button>
     </div>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <div v-if="generatedEmail" class="generated-email">
+      <h3>New Email Received!</h3>
+      <div class="email-content">
+        <div class="email-header">
+          <div class="email-from">{{ generatedEmail.from }}</div>
+          <div class="email-to">To: {{ generatedEmail.to }}</div>
+          <div class="email-date">{{ generatedEmail.date }}</div>
+          <h2>{{ generatedEmail.subject }}</h2>
+        </div>
+        <div class="email-body">{{ generatedEmail.body }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .email-generator {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    overflow-y: auto;
-    height: 100%;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .search-bar {
-    display: flex;
-    margin-bottom: 20px;
+  display: flex;
+  margin-bottom: 20px;
 }
 
 input {
-    flex-grow: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #dadce0;
-    border-radius: 4px 0 0 4px;
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px 0 0 4px;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4285f4;
-    color: white;
-    border: none;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
 }
 
 button:disabled {
-    background-color: #dadce0;
+  background-color: #dadce0;
 }
 
 .generated-email {
-    margin-top: 20px;
-    border: 1px solid #dadce0;
-    border-radius: 8px;
-    padding: 20px;
-    background-color: #f1f3f4;
+  margin-top: 20px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f1f3f4;
 }
 
 .email-content {
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #dadce0;
-    border-radius: 8px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
 }
 
 .email-header {
-    margin-bottom: 20px;
-    position: relative;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .email-header h2 {
-    margin-top: 10px;
-    margin-bottom: 0;
-    color: #202124;
-    font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  color: #202124;
+  font-size: 18px;
 }
 
 .email-from {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .email-to {
-    color: #5f6368;
-    margin-bottom: 5px;
+  color: #5f6368;
+  margin-bottom: 5px;
 }
 
 .email-date {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 12px;
-    color: #5f6368;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  color: #5f6368;
 }
 
 .email-body {
-    white-space: pre-wrap;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin-top: 10px;
-    text-align: left;
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin-top: 10px;
+  text-align: left;
 }
 
 .error-message {
-    color: #f44336;
-    margin-top: 10px;
+  color: #f44336;
+  margin-top: 10px;
 }
 </style>
