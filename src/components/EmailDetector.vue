@@ -57,7 +57,12 @@ const detectEmail = async () => {
   <div class="email-generator">
     <h2>Phishing Email Analyzer</h2>
     <div class="search-bar">
-      <input v-model="topic" placeholder="Enter an email for analysis" />
+      <textarea
+        v-model="topic"
+        placeholder="Paste the email content here for analysis"
+        rows="20"
+      >
+      </textarea>
       <button @click="detectEmail" :disabled="isLoading">
         {{ isLoading ? "Analyzing..." : "Analyze Email" }}
       </button>
@@ -95,6 +100,14 @@ input {
   border-radius: 4px 0 0 4px;
 }
 
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  resize: vertical; /* Allows user to adjust height */
+}
 button {
   padding: 10px 20px;
   font-size: 16px;
