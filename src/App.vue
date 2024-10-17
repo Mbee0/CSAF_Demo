@@ -1,38 +1,40 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Inbox from './components/Inbox.vue';
 import EmailViewer from './components/EmailViewer.vue';
 import ClassificationButtons from './components/ClassificationButtons.vue';
 import HelpButton from './components/HelpButton.vue';
 import EmailGenerator from './components/EmailGenerator.vue';
+import EmailDetector from './components/EmailDetector.vue';
 
 const emails = ref([
-  {
-    id: 1,
-    subject: 'Urgent: Account Verification Required',
-    from: 'Security Team <security@example.com>',
-    to: 'user@example.com',
-    date: '2023-05-15 10:30 AM',
-    summary: 'Request for immediate account verification due to suspicious activity.',
-    body: 'Dear user,\n\nWe have detected suspicious activity on your account. Please click the link below to verify your identity immediately:\n\nhttps://secure-verify.example.com/verify?id=123456\n\nIf you do not verify your account within 24 hours, it will be suspended.\n\nBest regards,\nSecurity Team',
-    isPhishing: true,
-    hints: ['Urgency in the subject', 'Generic greeting', 'Suspicious link', 'Threat of account suspension']
-  },
-  {
-    id: 2,
-    subject: 'Your latest invoice',
-    from: 'YourCompany Billing Team <billing@yourcompany.com>',
-    to: 'customer@example.com',
-    date: '2023-05-14 2:45 PM',
-    summary: 'Monthly invoice for May 2023 services.',
-    body: 'Dear Valued Customer,\n\nPlease find attached your latest invoice (#INV-2023-05) for services rendered in May 2023.\n\nIf you have any questions about this invoice, please don\'t hesitate to contact our billing department at billing@yourcompany.com or call us at (555) 123-4567.\n\nThank you for your business!\n\nBest regards,\nYourCompany Billing Team',
-    isPhishing: false,
-    hints: ['Expected sender', 'No urgent action required', 'Professional tone', 'Specific invoice details']
-  }
 ]);
 
 const currentEmail = ref(null);
 const activeTab = ref('inbox');
+
+const fetchEmails = async () => {
+  // console.log("im being called?")
+  try {
+    const response = await fetch('/src/emails.json');
+    if (!response.ok) {
+      throw new Error('Failed to load emails.');
+    }
+    // console.log("uoainsdf")
+    let data = await response.json();
+    // console.log("wait")
+    console.log(data.emails)
+    emails.value = data.emails;
+  } catch (error) {
+    console.error('Error loading emails:', error);
+  }
+};
+
+onMounted(() => {
+  fetchEmails();
+  // print("am i being called?");
+});
+
 
 const selectEmail = (email) => {
   currentEmail.value = email;
@@ -52,6 +54,7 @@ const switchTab = (tab) => {
     currentEmail.value = null;
   }
 };
+
 </script>
 
 <template>
@@ -66,6 +69,7 @@ const switchTab = (tab) => {
       <nav>
         <button @click="switchTab('inbox')" :class="{ active: activeTab === 'inbox' }">Inbox</button>
         <button @click="switchTab('generator')" :class="{ active: activeTab === 'generator' }">Email Generator</button>
+        <button @click="switchTab('detector')" :class="{ active: activeTab === 'detector' }">Email Analysis</button>
       </nav>
     </header>
     <main>
@@ -81,6 +85,7 @@ const switchTab = (tab) => {
         </div>
       </div>
       <EmailGenerator v-if="activeTab === 'generator'" />
+      <EmailDetector v-if="activeTab === 'detector'" />
     </main>
   </div>
 </template>
@@ -101,6 +106,7 @@ html {
   flex-direction: column;
   margin: 0;
   padding: 0;
+  background-color: #f8f9f9;
 }
 
 header {
@@ -133,7 +139,20 @@ h1 button {
   font-size: 32px;
   padding: 10px 15px;
   cursor: pointer;
-  color: #5f6368;
+  color: #192642;
+}
+
+h1 button:hover {
+  color: #233d75;
+  /* border-bottom: 3px solid #4285f4; */
+}
+
+h1 button:active {
+  color: #3ba5b6;
+  font-size: 31px;
+  /* text-decoration: underline; */
+
+  /* border-bottom: 3px solid #4285f4; */
 }
 
 h1 button:focus {
@@ -153,14 +172,30 @@ nav {
 nav button {
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 24px;
   padding: 10px 15px;
   cursor: pointer;
-  color: #5f6368;
+  color: #192642;
+  transition: color .25s;
+}
+
+nav button:hover {
+  color: #3e5a96;
+  /* border-bottom: 3px solid #4285f4; */
 }
 
 nav button.active {
-  color: #4285f4;
+  color: #44c0d3;
+  /* text-decoration: underline; */
+
+  /* border-bottom: 3px solid #4285f4; */
+}
+
+nav button:active {
+  color: #3ba5b6;
+  font-size: 23px;
+  /* text-decoration: underline; */
+
   /* border-bottom: 3px solid #4285f4; */
 }
 
@@ -203,7 +238,7 @@ main {
   margin: 5px;
   border-radius: 5px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-color: #e0e0e0;
 }
 </style>

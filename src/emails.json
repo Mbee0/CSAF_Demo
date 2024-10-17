@@ -1,0 +1,36 @@
+{
+    "emails": [
+        {
+            "id": 1,
+            "subject": "Urgent: Account Verification Required",
+            "from": "Security Team <security@example.com>",
+            "to": "user@example.com",
+            "date": "2023-05-15 10:30 AM",
+            "summary": "Request for immediate account verification due to suspicious activity.",
+            "body": "Dear user,\n\nWe have detected suspicious activity on your account. Please click the link below to verify your identity immediately:\n\nhttps://secure-verify.example.com/verify?id=123456\n\nIf you do not verify your account within 24 hours, it will be suspended.\n\nBest regards,\nSecurity Team",
+            "isPhishing": true,
+            "hints": [
+                "Urgency in the subject",
+                "Generic greeting",
+                "Suspicious link",
+                "Threat of account suspension"
+            ]
+        },
+        {
+            "id": 2,
+            "subject": "Your latest invoice",
+            "from": "YourCompany Billing Team <billing@yourcompany.com>",
+            "to": "customer@example.com",
+            "date": "2023-05-14 2:45 PM",
+            "summary": "Monthly invoice for May 2023 services.",
+            "body": "Dear Valued Customer,\n\nPlease find attached your latest invoice (#INV-2023-05) for services rendered in May 2023.\n\nIf you have any questions about this invoice, please don't hesitate to contact our billing department at billing@yourcompany.com or call us at (555) 123-4567.\n\nThank you for your business!\n\nBest regards,\nYourCompany Billing Team",
+            "isPhishing": false,
+            "hints": [
+                "Expected sender",
+                "No urgent action required",
+                "Professional tone",
+                "Specific invoice details"
+            ]
+        }
+    ]
+}

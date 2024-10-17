@@ -5,8 +5,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="email-title-view">
-        <h2>{{ email.subject }}</h2>
+    <div class="email-title-view">{{ email.subject }}
     </div>
     <div class="email-viewer">
         <div class="email-header">
@@ -32,8 +31,11 @@ defineProps({
     text-align: left;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    padding: 5px;
     margin-bottom: 5px;
+    color: #202124;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 8px 15px;
 }
 
 .email-header {

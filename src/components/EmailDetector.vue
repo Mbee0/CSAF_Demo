@@ -1,32 +1,13 @@
 <script setup>
 import { ref } from 'vue';
-import openai from '../assets/openai.js';
 // import axios from 'axios';
 
 const topic = ref('');
-const generatedEmail = ref(null);
+const detectedEmail = ref(null);
 const isLoading = ref(false);
 const errorMessage = ref('');
-const recipientName = ref('exampleuser@gmail.com')
 
-const generateEmail = async () => {
-    const prompt = `
-    Write a phishing email that appears to be from a sender relevant to the topic. 
-    The email should pretend to be about "${topic.value}", using urgency and a call to action to click a malicious link. 
-    Include elements that demonstrate typical phishing tactics:
-    - An urgent subject line
-    - A generic greeting
-    - A sense of urgency and a call to action
-    - A suspicious-looking link that pretends to be legitimate
-
-    The output should be a JSON object with the following structure:
-    {
-      "subject": "<subject>",
-      "from": "<sender email>",
-      "date": "<current date>",
-      "body": "<email body>"
-    }
-  `;
+const detectEmail = async () => {
     isLoading.value = true;
     errorMessage.value = '';
 
@@ -36,40 +17,42 @@ const generateEmail = async () => {
 
         // Prepare the request payload
         const requestBody = JSON.stringify({
-            prompt: prompt,
+            prompt: `Generate a phishing email on the topic: ${topic.value}`,
             max_tokens: 150, // Adjust tokens based on expected length
             temperature: 0.7 // Adjust creativity level
         });
 
         // Fetch request to OpenAI API
-        const response = await openai.chat.completions.create({
-            messages: [{ role: 'user', content: 'hi, how are you?' }],
-            model: 'gpt-3.5-turbo'
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: requestBody
         });
+
         if (!response.ok) {
             throw new Error('Failed to generate email');
         }
 
-        console.log(response.choices[0].message)
-
-        // const data = await response.json();
-        // console.log(data.value)
+        const data = await response.json();
 
         // Process data with Instructor library if needed
-        // let emailData = data.choices[0].text;
+        let emailData = data.choices[0].text;
 
-        // // Use Instructor library if specific formatting or structuring is required
-        // if (typeof Instructor !== 'undefined') {
-        //     emailData = Instructor.process(emailData); // Adjust based on Instructor’s method for processing
-        // }
+        // Use Instructor library if specific formatting or structuring is required
+        if (typeof Instructor !== 'undefined') {
+            emailData = Instructor.process(emailData); // Adjust based on Instructor’s method for processing
+        }
 
-        // generatedEmail.value = {
-        //     subject: 'Generated Email Subject', // Customize based on the email data returned
-        //     from: 'Generated Sender <no-reply@example.com>',
-        //     to: 'user@example.com',
-        //     date: new Date().toLocaleString(),
-        //     body: emailData // or parse and format as needed
-        // };
+        detectedEmail.value = {
+            subject: 'Generated Email Subject', // Customize based on the email data returned
+            from: 'Generated Sender <no-reply@example.com>',
+            to: 'user@example.com',
+            date: new Date().toLocaleString(),
+            body: emailData // or parse and format as needed
+        };
     } catch (error) {
         console.error('Error generating email:', error);
         errorMessage.value = 'Failed to generate email. Please try again.';
@@ -81,7 +64,7 @@ const generateEmail = async () => {
 
 <template>
     <div class="email-generator">
-        <h2>Generate Personalized Phishing Email</h2>
+        <h2>Phishing Email Detector</h2>
         <div class="search-bar">
             <input v-model="topic" placeholder="Enter a topic for the phishing email" />
             <button @click="generateEmail" :disabled="isLoading">
