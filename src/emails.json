@@ -1,36 +1,52 @@
 {
-    "emails": [
-        {
-            "id": 1,
-            "subject": "Urgent: Account Verification Required",
-            "from": "Security Team <security@example.com>",
-            "to": "user@example.com",
-            "date": "2023-05-15 10:30 AM",
-            "summary": "Request for immediate account verification due to suspicious activity.",
-            "body": "Dear user,\n\nWe have detected suspicious activity on your account. Please click the link below to verify your identity immediately:\n\nhttps://secure-verify.example.com/verify?id=123456\n\nIf you do not verify your account within 24 hours, it will be suspended.\n\nBest regards,\nSecurity Team",
-            "isPhishing": true,
-            "hints": [
-                "Urgency in the subject",
-                "Generic greeting",
-                "Suspicious link",
-                "Threat of account suspension"
-            ]
-        },
-        {
-            "id": 2,
-            "subject": "Your latest invoice",
-            "from": "YourCompany Billing Team <billing@yourcompany.com>",
-            "to": "customer@example.com",
-            "date": "2023-05-14 2:45 PM",
-            "summary": "Monthly invoice for May 2023 services.",
-            "body": "Dear Valued Customer,\n\nPlease find attached your latest invoice (#INV-2023-05) for services rendered in May 2023.\n\nIf you have any questions about this invoice, please don't hesitate to contact our billing department at billing@yourcompany.com or call us at (555) 123-4567.\n\nThank you for your business!\n\nBest regards,\nYourCompany Billing Team",
-            "isPhishing": false,
-            "hints": [
-                "Expected sender",
-                "No urgent action required",
-                "Professional tone",
-                "Specific invoice details"
-            ]
-        }
-    ]
+  "emails": [
+    {
+      "id": 1,
+      "subject": "Urgent: Account Verification Required",
+      "from": "Security Team <security@example.com>",
+      "to": "user@example.com",
+      "date": "2023-05-15 10:30 AM",
+      "summary": "Request for immediate account verification due to suspicious activity.",
+      "body": "Dear user,\n\nWe have detected suspicious activity on your account. Please click the link below to verify your identity immediately:\n\nhttps://secure-verify.example.com/verify?id=123456\n\nIf you do not verify your account within 24 hours, it will be suspended.\n\nBest regards,\nSecurity Team",
+      "isPhishing": true,
+      "hints": [
+        "Urgency in the subject",
+        "Generic greeting",
+        "Suspicious link",
+        "Threat of account suspension"
+      ]
+    },
+    {
+      "id": 2,
+      "subject": "Your latest invoice",
+      "from": "YourCompany Billing Team <billing@yourcompany.com>",
+      "to": "customer@example.com",
+      "date": "2023-05-14 2:45 PM",
+      "summary": "Monthly invoice for May 2023 services.",
+      "body": "Dear Valued Customer,\n\nPlease find attached your latest invoice (#INV-2023-05) for services rendered in May 2023.\n\nIf you have any questions about this invoice, please don't hesitate to contact our billing department at billing@yourcompany.com or call us at (555) 123-4567.\n\nThank you for your business!\n\nBest regards,\nYourCompany Billing Team",
+      "isPhishing": false,
+      "hints": [
+        "Expected sender",
+        "No urgent action required",
+        "Professional tone",
+        "Specific invoice details"
+      ]
+    },
+    {
+      "id": 3,
+      "subject": "Quarterly Review Meeting - Thursday, 2 PM",
+      "from": "Jennifer Smith <jennifer.smith@company.com>",
+      "to": "team@company.com",
+      "date": "2023-06-19 2:01 PM",
+      "summary": "Quarterly Review Meeting - Thursday, 2 PM",
+      "body": "Dear Team,\n\nI hope this email finds you well. I'm writing to remind everyone about our upcoming Quarterly Review Meeting scheduled for this Thursday at 2 PM in the main conference room.\n\nAgenda:\n1. Q2 Performance Overview\n2. Project Update\n3. Q3 Goals and Strategies\n4. Open Discussion\n\nPlease come prepared with your team's updates and any questions you may have. If you're unable to attend in person, you can join via our usual video conferencing link: https://company.zoom.us/j/123456789\n\nDon't forget to bring your laptops for the interactive portion of the meeting.\n\nIf you have any questions or need to discuss anything before the meeting, feel free to drop by my office or send me an email.\n\nLooking forward to seeing everyone on Thursday!\n\nBest regards,\nJennifer Smith\nHead of Operations\nCompany Inc.",
+      "isPhishing": false,
+      "hints": [
+        "Expected sender",
+        "No urgent action required",
+        "Professional tone",
+        "Specific invoice details"
+      ]
+    }
+  ]
 }

@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps({
-  hints: Array
+  hints: Array,
 });
 
 const showHints = ref(false);
@@ -14,7 +14,9 @@ const toggleHints = () => {
 
 <template>
   <div class="help-button">
-    <button @click="toggleHints">{{ showHints ? 'Hide Help' : 'Show Help' }}</button>
+    <button @click="toggleHints">
+      {{ showHints ? "Hide Explanation" : "Show Explanation" }}
+    </button>
     <ul v-if="showHints">
       <li v-for="(hint, index) in hints" :key="index">{{ hint }}</li>
     </ul>
