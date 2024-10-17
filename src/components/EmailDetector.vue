@@ -10,10 +10,10 @@ const recipientName = ref("exampleuser@gmail.com");
 
 const detectEmail = async () => {
     const prompt = `
-    You are a cybersecurity expert who specializes in identifying spam emails. I am going to give you an email and I want you to 
+    You are a cybersecurity expert who specializes in identifying spam emails. I am going to give you an email, not spam or spam, and I want you to 
     analyze said email and return to me these major points in this order and format:
     Phishing Probability: {low, medium, high}
-    Suspicious Elements: (list out possible suspicious elements here)
+    Elements: (list out either legitamate elements or suspicious elements)
     Recommended Actions: (Possible recommended actions for the user to check if this is a phishing email for themself or how to keep themself safe)
     Explanation: (Explain the suspicious elements and why this is or isn't a phishing email)
   `;
