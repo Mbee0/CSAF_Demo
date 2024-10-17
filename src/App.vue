@@ -1,32 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import Inbox from './components/Inbox.vue';
-import EmailViewer from './components/EmailViewer.vue';
-import ClassificationButtons from './components/ClassificationButtons.vue';
-import HelpButton from './components/HelpButton.vue';
-import EmailGenerator from './components/EmailGenerator.vue';
-import EmailDetector from './components/EmailDetector.vue';
+import { ref, onMounted } from "vue";
+import Inbox from "./components/Inbox.vue";
+import EmailViewer from "./components/EmailViewer.vue";
+import ClassificationButtons from "./components/ClassificationButtons.vue";
+import HelpButton from "./components/HelpButton.vue";
+import EmailGenerator from "./components/EmailGenerator.vue";
+import EmailDetector from "./components/EmailDetector.vue";
 
-const emails = ref([
-]);
+const emails = ref([]);
 
 const currentEmail = ref(null);
-const activeTab = ref('inbox');
+const activeTab = ref("inbox");
 
 const fetchEmails = async () => {
   // console.log("im being called?")
   try {
-    const response = await fetch('/src/emails.json');
+    const response = await fetch("./emails.json");
     if (!response.ok) {
-      throw new Error('Failed to load emails.');
+      throw new Error("Failed to load emails.");
     }
     // console.log("uoainsdf")
     let data = await response.json();
     // console.log("wait")
-    console.log(data.emails)
+    console.log(data.emails);
     emails.value = data.emails;
   } catch (error) {
-    console.error('Error loading emails:', error);
+    console.error("Error loading emails:", error);
   }
 };
 
@@ -35,41 +34,54 @@ onMounted(() => {
   // print("am i being called?");
 });
 
-
 const selectEmail = (email) => {
   currentEmail.value = email;
 };
 
 const classifyEmail = (isPhishing) => {
   if (currentEmail.value.isPhishing === isPhishing) {
-    alert('Correct classification!');
+    alert("Correct classification!");
   } else {
-    alert('Incorrect. Try again and use the help button for hints.');
+    alert("Incorrect. Try again and use the help button for hints.");
   }
 };
 
 const switchTab = (tab) => {
   activeTab.value = tab;
-  if (tab === 'inbox') {
+  if (tab === "inbox") {
     currentEmail.value = null;
   }
 };
-
 </script>
 
 <template>
   <div class="app">
     <header>
       <h1>
-        <img src="./images/logo.png">
+        <img src="./images/logo.png" />
         <button onclick=" window.open('https://linktr.ee/cppdsai','_blank')">
-
-          Data Science and AI Phishing Email Trainer</button>
+          Data Science and AI Phishing Email Trainer
+        </button>
       </h1>
       <nav>
-        <button @click="switchTab('inbox')" :class="{ active: activeTab === 'inbox' }">Inbox</button>
-        <button @click="switchTab('generator')" :class="{ active: activeTab === 'generator' }">Email Generator</button>
-        <button @click="switchTab('detector')" :class="{ active: activeTab === 'detector' }">Email Analysis</button>
+        <button
+          @click="switchTab('inbox')"
+          :class="{ active: activeTab === 'inbox' }"
+        >
+          Inbox
+        </button>
+        <button
+          @click="switchTab('generator')"
+          :class="{ active: activeTab === 'generator' }"
+        >
+          Email Generator
+        </button>
+        <button
+          @click="switchTab('detector')"
+          :class="{ active: activeTab === 'detector' }"
+        >
+          Email Analysis
+        </button>
       </nav>
     </header>
     <main>
@@ -159,7 +171,6 @@ h1 button:focus {
   outline: none;
 }
 
-
 h1 img {
   width: 50px;
   height: 50px;
@@ -176,7 +187,7 @@ nav button {
   padding: 10px 15px;
   cursor: pointer;
   color: #192642;
-  transition: color .25s;
+  transition: color 0.25s;
 }
 
 nav button:hover {
@@ -202,7 +213,6 @@ nav button:active {
 nav button:focus {
   outline: none;
 }
-
 
 main {
   flex-grow: 1;
