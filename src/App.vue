@@ -15,7 +15,7 @@ const activeTab = ref("inbox");
 const fetchEmails = async () => {
   // console.log("im being called?")
   try {
-    const response = await fetch("./emails.json");
+    const response = await fetch("/emails.json");
     if (!response.ok) {
       throw new Error("Failed to load emails.");
     }
