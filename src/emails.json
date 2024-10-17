@@ -31,6 +31,86 @@
                 "Professional tone",
                 "Specific invoice details"
             ]
+        },
+        {
+            "id": 3,
+            "subject": "Quarterly Review Meeting - Thursday, 2 PM",
+            "from": "Jennifer Smith <jennifer.smith@company.com>",
+            "to": "team@company.com",
+            "date": "2023-06-19 2:01 PM",
+            "summary": "Quarterly Review Meeting - Thursday, 2 PM",
+            "body": "Dear Team,\n\nI hope this email finds you well. I'm writing to remind everyone about our upcoming Quarterly Review Meeting scheduled for this Thursday at 2 PM in the main conference room.\n\nAgenda:\n1. Q2 Performance Overview\n2. Project Update\n3. Q3 Goals and Strategies\n4. Open Discussion\n\nPlease come prepared with your team's updates and any questions you may have. If you're unable to attend in person, you can join via our usual video conferencing link: https://company.zoom.us/j/123456789\n\nDon't forget to bring your laptops for the interactive portion of the meeting.\n\nIf you have any questions or need to discuss anything before the meeting, feel free to drop by my office or send me an email.\n\nLooking forward to seeing everyone on Thursday!\n\nBest regards,\nJennifer Smith\nHead of Operations\nCompany Inc.",
+            "isPhishing": false,
+            "hints": [
+                "Expected sender",
+                "No urgent action required",
+                "Professional tone",
+                "Specific invoice details"
+            ]
+        },
+        {
+            "id": 4,
+            "subject": "Immediate Tax Filing Assistance Required",
+            "from": "IRS Support <support@irs-gov.com>",
+            "to": "john.doe@example.com",
+            "date": "2024-10-17 07:45 AM",
+            "summary": "Request for immediate action on tax filing discrepancies.",
+            "body": "Dear John,\n\nWe recently detected a discrepancy in your recent tax filing and require immediate assistance to resolve the matter. Please log in to your IRS account to review and update your information:\n\nhttps://irs-secure-access.com/login?id=5521\n\nThis issue needs to be addressed within 48 hours to avoid potential penalties.\n\nSincerely,\nRichard Thompson\nIRS Customer Support\n\n*If you have already resolved this issue, please disregard this email.*",
+            "isPhishing": true,
+            "hints": [
+                "Impersonates a government authority (IRS)",
+                "Creates a sense of urgency with potential penalties",
+                "Contains a fake link that appears official",
+                "Threatens penalties to increase pressure"
+            ]
+        },
+        {
+            "id": 5,
+            "subject": "Exciting Job Opportunity at Your Dream Company",
+            "from": "HR Team <hr@dreamcompany.com>",
+            "to": "user@example.com",
+            "date": "2024-10-15 09:00 AM",
+            "summary": "Invitation to apply for a tailored job opportunity based on your LinkedIn profile.",
+            "body": "Hi Jessie,\n\nWe came across your impressive profile on LinkedIn and wanted to reach out personally. We're excited to offer you an exclusive opportunity at Dream Company as a Data Analyst. This role aligns perfectly with your background and skills.\n\nTo view the job details and begin the application process, please click on the link below:\n\nhttps://apply.dreamcompany-careers.com/offer?id=1029384756\n\nDon't miss out! We’re thrilled to see how you can contribute to our team.\n\nWarm regards,\nJane Doe\nHR Specialist\nDream Company\n\n*P.S. If you’re not interested in this role, feel free to share this link with a friend who might be!*",
+            "isPhishing": true,
+            "hints": [
+                "Personalized with recipient's name",
+                "References specific details (LinkedIn profile, role alignment)",
+                "Phishing link masked as a legitimate career portal",
+                "Urgency implied with 'exclusive opportunity'"
+            ]
+        },
+        {
+            "id": 6,
+            "subject": "Special Offer: Student Loan Forgiveness Available",
+            "from": "Loan Forgiveness Program <loans@financialhelp.gov>",
+            "to": "sarah@example.com",
+            "date": "2024-10-17 03:00 PM",
+            "summary": "Notification of eligibility for a limited student loan forgiveness program.",
+            "body": "Dear Sarah,\n\nAs a valued graduate, you may qualify for a new student loan forgiveness program designed to ease your financial burden. This is a limited-time offer, so please confirm your eligibility by following the link below:\n\nhttps://forgiveness-program.gov/apply?token=823749\n\nTake advantage of this opportunity while it lasts!\n\nWarm regards,\nJessica Lee\nFederal Loan Assistance Office\n\n*Note: Eligibility requirements apply. Act now to see if you qualify!*",
+            "isPhishing": true,
+            "hints": [
+                "Taps into student loan forgiveness interest",
+                "Mentions limited-time offer to prompt urgency",
+                "Uses a fake link mimicking a government site",
+                "Appears helpful and empathetic to increase credibility"
+            ]
+        },
+        {
+            "id": 7,
+            "subject": "Campus Phishing Training",
+            "from": "CPP IT Security <itsecurity@cpp.edu>",
+            "to": "alexanderjohnson@example.com",
+            "date": "2024-10-22 03:00 PM",
+            "summary": "Notification of email security.",
+            "body": "Alexander Johnson. \n\nYou are receiving this message as you may have opened or responded to the recent fraudulent phishing message that was part of the campus internal phishing campaign.\n\nWe are providing a recommended training course you can complete that should take 1 min(s).\n\\https://na01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsecurity.microsoft.com%2Ftrainingassignments&data=05%7C02%7Cmbee%40cpp.edu\n%7C701a7964a8fd4253dad908dced37ef40%7C164ba61e39ec4f5d89ffaa1f00a521b4%7C0%7C0%7C63864607\n1698832356%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL\nCJXVCI6Mn0%3D%7C10000%7C%7C%7C&sdata=clgv2bHZCjTBT0o%2FlffpIpvucJF5tlnCvTZS0gdeNTQ%3D&reserved=0\nTraining is available through October 29, 2024.",
+            "isPhishing": false,
+            "hints": [
+                "Taps into student loan forgiveness interest",
+                "Mentions limited-time offer to prompt urgency",
+                "Uses a fake link mimicking a government site",
+                "Appears helpful and empathetic to increase credibility"
+            ]
         }
     ]
 }

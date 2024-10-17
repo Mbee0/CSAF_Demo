@@ -1,13 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import openai from '../assets/openai.js';
-// import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 
-const topic = ref('');
+const topic = ref("");
 const generatedEmail = ref(null);
 const isLoading = ref(false);
-const errorMessage = ref('');
-const recipientName = ref('exampleuser@gmail.com')
+const errorMessage = ref("");
+const recipientName = ref("exampleuser@gmail.com");
 
 const generateEmail = async () => {
     const prompt = `
@@ -27,52 +26,36 @@ const generateEmail = async () => {
       "body": "<email body>"
     }
   `;
+
     isLoading.value = true;
-    errorMessage.value = '';
+    errorMessage.value = "";
 
     try {
-        const apiUrl = 'https://api.openai.com/v1/engines/davinci/completions'; // Replace with your model endpoint
-        const apiKey = 'your_openai_api_key_here'; // Replace with your actual OpenAI API key
+        const apiUrl = "https://api.openai.com/v1/chat/completions";
+        const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
-        // Prepare the request payload
-        const requestBody = JSON.stringify({
-            prompt: prompt,
-            max_tokens: 150, // Adjust tokens based on expected length
-            temperature: 0.7 // Adjust creativity level
-        });
+        // Make the API request with gpt-4-turbo and correct JSON payload
+        const response = await axios.post(
+            apiUrl,
+            {
+                model: "gpt-3.5-turbo",
+                messages: [{ role: "system", content: prompt }],
+                max_tokens: 1000,
+                temperature: 0.2,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-        // Fetch request to OpenAI API
-        const response = await openai.chat.completions.create({
-            messages: [{ role: 'user', content: 'hi, how are you?' }],
-            model: 'gpt-3.5-turbo'
-        });
-        if (!response.ok) {
-            throw new Error('Failed to generate email');
-        }
-
-        console.log(response.choices[0].message)
-
-        // const data = await response.json();
-        // console.log(data.value)
-
-        // Process data with Instructor library if needed
-        // let emailData = data.choices[0].text;
-
-        // // Use Instructor library if specific formatting or structuring is required
-        // if (typeof Instructor !== 'undefined') {
-        //     emailData = Instructor.process(emailData); // Adjust based on Instructor’s method for processing
-        // }
-
-        // generatedEmail.value = {
-        //     subject: 'Generated Email Subject', // Customize based on the email data returned
-        //     from: 'Generated Sender <no-reply@example.com>',
-        //     to: 'user@example.com',
-        //     date: new Date().toLocaleString(),
-        //     body: emailData // or parse and format as needed
-        // };
+        const emailData = response.data.choices[0].message.content.trim();
+        generatedEmail.value = JSON.parse(emailData);
     } catch (error) {
-        console.error('Error generating email:', error);
-        errorMessage.value = 'Failed to generate email. Please try again.';
+        console.error("Error generating email:", error);
+        errorMessage.value = "Failed to generate email. Please try again.";
     } finally {
         isLoading.value = false;
     }
@@ -84,7 +67,7 @@ const generateEmail = async () => {
         <h2>Generate Personalized Phishing Email</h2>
         <div class="search-bar">
             <textarea v-model="topic" placeholder="Enter a topic for the phishing email"></textarea>
-            <!-- {{ isLoading ? 'Generating...' : 'Generate Email' }} -->
+            <!-- {{ isLoading ? "Generating..." : "Generate Email" }} -->
             <button @click="generateEmail" :disabled="isLoading">
             </button>
         </div>
@@ -150,6 +133,8 @@ button {
 
 button:disabled {
     background: url('../images/go.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
     /* background-color: #dadce0; */
 }
 

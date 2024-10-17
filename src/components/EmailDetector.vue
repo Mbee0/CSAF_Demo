@@ -1,61 +1,53 @@
 <script setup>
-import { ref } from 'vue';
-// import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 
-const topic = ref('');
-const detectedEmail = ref(null);
+const topic = ref("");
+const generatedEmail = ref(null);
 const isLoading = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
+const recipientName = ref("exampleuser@gmail.com");
 
 const detectEmail = async () => {
+    const prompt = `
+    You are a cybersecurity expert who specializes in identifying spam emails. I am going to give you a spam email and I want you to 
+    analyze said email and return to me these major points in this order and format:
+    Phishing Probability: {low, medium, high}
+    Suspicious Elements: (list out possible suspicious elements here)
+    Recommended Actions: (Possible recommended actions for the user to check if this is a phishing email for themself or how to keep themself safe)
+    Explanation: (Explain the suspicious elements and why this is or isn't a phishing email)
+  `;
+
     isLoading.value = true;
-    errorMessage.value = '';
+    errorMessage.value = "";
 
     try {
-        const apiUrl = 'https://api.openai.com/v1/engines/davinci/completions'; // Replace with your model endpoint
-        const apiKey = 'your_openai_api_key_here'; // Replace with your actual OpenAI API key
+        const apiUrl = "https://api.openai.com/v1/chat/completions";
+        const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+        // i wonder
 
-        // Prepare the request payload
-        const requestBody = JSON.stringify({
-            prompt: `Generate a phishing email on the topic: ${topic.value}`,
-            max_tokens: 150, // Adjust tokens based on expected length
-            temperature: 0.7 // Adjust creativity level
-        });
-
-        // Fetch request to OpenAI API
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
+        // Make the API request with gpt-4-turbo and correct JSON payload
+        const response = await axios.post(
+            apiUrl,
+            {
+                model: "gpt-3.5-turbo",
+                messages: [{ role: "user", content: prompt }],
+                max_tokens: 1000,
+                temperature: 0.2,
             },
-            body: requestBody
-        });
+            {
+                headers: {
+                    Authorization: `Bearer ${apiKey}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
 
-        if (!response.ok) {
-            throw new Error('Failed to generate email');
-        }
-
-        const data = await response.json();
-
-        // Process data with Instructor library if needed
-        let emailData = data.choices[0].text;
-
-        // Use Instructor library if specific formatting or structuring is required
-        if (typeof Instructor !== 'undefined') {
-            emailData = Instructor.process(emailData); // Adjust based on Instructor’s method for processing
-        }
-
-        detectedEmail.value = {
-            subject: 'Generated Email Subject', // Customize based on the email data returned
-            from: 'Generated Sender <no-reply@example.com>',
-            to: 'user@example.com',
-            date: new Date().toLocaleString(),
-            body: emailData // or parse and format as needed
-        };
+        const emailData = response.data.choices[0].message.content.trim();
+        generatedEmail.value = emailData;
     } catch (error) {
-        console.error('Error generating email:', error);
-        errorMessage.value = 'Failed to generate email. Please try again.';
+        console.error("Error generating email:", error);
+        errorMessage.value = "Failed to generate email. Please try again.";
     } finally {
         isLoading.value = false;
     }
@@ -64,24 +56,19 @@ const detectEmail = async () => {
 
 <template>
     <div class="email-generator">
-        <h2>Phishing Email Detector</h2>
+        <h2>Phishing Email Analyzer</h2>
         <div class="search-bar">
-            <textarea v-model="topic" placeholder="Enter the Phishing Email"></textarea>
-            <!-- {{ isLoading ? 'Generating...' : 'Generate Email' }} -->
-            <button @click="generateEmail" :disabled="isLoading">
+            <textarea v-model="topic" placeholder="Paste the email content here for analysis" rows="20">
+      </textarea>
+            <!--    {{ isLoading ? "Analyzing..." : "Analyze Email" }} -->
+            <button @click="detectEmail" :disabled="isLoading">
             </button>
         </div>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         <div v-if="generatedEmail" class="generated-email">
-            <h3>New Email Received!</h3>
+            <h3>Email Analysis Completed!</h3>
             <div class="email-content">
-                <div class="email-header">
-                    <div class="email-from">{{ generatedEmail.from }}</div>
-                    <div class="email-to">To: {{ generatedEmail.to }}</div>
-                    <div class="email-date">{{ generatedEmail.date }}</div>
-                    <h2>{{ generatedEmail.subject }}</h2>
-                </div>
-                <div class="email-body">{{ generatedEmail.body }}</div>
+                <div class="email-body">{{ generatedEmail }}</div>
             </div>
         </div>
     </div>
@@ -117,6 +104,16 @@ textarea:focus {
     outline: none;
 }
 
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    resize: vertical;
+    /* Allows user to adjust height */
+}
+
 button {
     margin: 5px 15px;
     background: url('../images/go1.webp');
@@ -135,6 +132,10 @@ button {
 
 button:disabled {
     background: url('../images/go.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 58px;
+    height: 56px;
     /* background-color: #dadce0; */
 }
 
